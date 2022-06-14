@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+using BonoApp.API.Bono.Domain.Repositories;
+using BonoApp.API.Bono.Domain.Services;
+using BonoApp.API.Bono.Persistence.Repositories;
+using BonoApp.API.Bono.Services;
 using BonoApp.API.Shared.Domain.Repositories;
 using BonoApp.API.Shared.Persistence.Contexts;
 using BonoApp.API.Shared.Persistence.Repositories;
@@ -47,6 +51,8 @@ namespace BonoApp.API
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IBondRepository, BondRepository>();
+            services.AddScoped<IBondService, BondService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
