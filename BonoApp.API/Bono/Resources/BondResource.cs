@@ -12,9 +12,9 @@ namespace BonoApp.API.Bono.Resources
         public int DayByAnios { get; set; }
         public string RateType { get; set; }
         public string Capitalization { get; set; }
-        public double InterestRate { get; set; }
-        public double Discount { get; set; }
-        public double IncomeTax { get; set; }
+        public float InterestRate { get; set; }
+        public float Discount { get; set; }
+        public float IncomeTax { get; set; }
         public DateTime BroadcastDate { get; set; }
         public int UserId { get; set; }
     }

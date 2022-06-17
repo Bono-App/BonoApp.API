@@ -53,6 +53,7 @@ namespace BonoApp.API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBondRepository, BondRepository>();
             services.AddScoped<IBondService, BondService>();
+            services.AddScoped<IBondAmericanService, BondAmericanService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

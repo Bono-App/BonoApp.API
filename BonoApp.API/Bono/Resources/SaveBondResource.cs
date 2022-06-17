@@ -23,11 +23,11 @@ namespace BonoApp.API.Bono.Resources
         [MaxLength(60)]
         public string Capitalization { get; set; }
         [Required]
-        public double InterestRate { get; set; }
+        public float InterestRate { get; set; }
         [Required]
-        public double Discount { get; set; }
+        public float Discount { get; set; }
         [Required]
-        public double IncomeTax { get; set; }
+        public float IncomeTax { get; set; }
         [Required]
         public DateTime BroadcastDate { get; set; }
         [Required]
