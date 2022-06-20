@@ -1,6 +1,6 @@
 ﻿namespace BonoApp.API.Bono.Resources
 {
-    public class AmericanBondResource
+    public class BondResultResource
     {
         //public double Van { get; set; }
         public int CouponFrequency { get; set; }

@@ -7,20 +7,38 @@ using Humanizer;
 
 namespace BonoApp.API.Bono.Services
 {
-    public class BondAmericanService : IBondAmericanService
+    public class BondResultService : IBondResultService
     {
         private readonly IBondRepository _bondRepository;
 
-        public BondAmericanService(IBondRepository bondRepository)
+        public BondResultService(IBondRepository bondRepository)
         {
             _bondRepository = bondRepository;
         }
 
-        public AmericanBondResource GetResult(int bondId)
+        public BondResultResource GetResultAmerican(int bondId)
         {
-            AmericanBondResource result = new AmericanBondResource();
+            BondResultResource result = new BondResultResource();
             var bond = _bondRepository.FindByIdAsync(bondId);
-            result = BondStruct(bond.Result, result);
+            result = BondStructAmerican(bond.Result, result);
+
+            return result;
+        }
+
+        public BondResultResource GetResultFrances(int bondId)
+        {
+            BondResultResource result = new BondResultResource();
+            var bond = _bondRepository.FindByIdAsync(bondId);
+            result = BondStructFrances(bond.Result, result);
+
+            return result;
+        }
+
+        public BondResultResource GetResultGermany(int bondId)
+        {
+            BondResultResource result = new BondResultResource();
+            var bond = _bondRepository.FindByIdAsync(bondId);
+            result = BondStructGermany(bond.Result, result);
 
             return result;
         }
@@ -96,7 +114,7 @@ namespace BonoApp.API.Bono.Services
             return 0;
         }
 
-        private float GetTEA(Bond resource, AmericanBondResource result)
+        private float GetTEA(Bond resource, BondResultResource result)
         {
             if (resource.RateType == "Efectiva")
                 return resource.InterestRate;
@@ -110,7 +128,7 @@ namespace BonoApp.API.Bono.Services
             }
         }
 
-        private float GetTEP(Bond resource, AmericanBondResource result)
+        private float GetTEP(Bond resource, BondResultResource result)
         {
             float toPercentage = result.TEA / 100;
             float firstStep = (1 + toPercentage);
@@ -119,7 +137,7 @@ namespace BonoApp.API.Bono.Services
             return (float)secondStep;
         }
 
-        private float GetCOK(Bond resource, AmericanBondResource result)
+        private float GetCOK(Bond resource, BondResultResource result)
         {
             float toPercentage = resource.Discount / 100;
             float firstStep = (1 + toPercentage);
@@ -140,7 +158,7 @@ namespace BonoApp.API.Bono.Services
             return toPercentage * resource.CommercialValue;
         }
 
-        private void GetData(Bond resource, AmericanBondResource result)
+        private void GetDataAmerican(Bond resource, BondResultResource result)
         {
             float interest = (result.TEP / 100);
             float bond=resource.NominalValue;
@@ -200,7 +218,7 @@ namespace BonoApp.API.Bono.Services
             result.ModifiedDuration = result.Duration / (1 + (result.COK / 100));
         }
 
-        private void GetData2(Bond resource, AmericanBondResource result)
+        private void GetDataFrances(Bond resource, BondResultResource result)
         {
             float interest = (result.TEP / 100);
             float bond = resource.NominalValue;
@@ -259,7 +277,7 @@ namespace BonoApp.API.Bono.Services
             result.ModifiedDuration = result.Duration / (1 + (result.COK / 100));
         }
         
-        private void GetData3(Bond resource, AmericanBondResource result)
+        private void GetDataGermany(Bond resource, BondResultResource result)
         {
             float interest = (result.TEP / 100);
             float bond=resource.NominalValue;
@@ -319,7 +337,7 @@ namespace BonoApp.API.Bono.Services
             result.ModifiedDuration = result.Duration / (1 + (result.COK / 100));
         }
 
-        private AmericanBondResource BondStruct(Bond resource, AmericanBondResource result)
+        private BondResultResource BondStructAmerican(Bond resource, BondResultResource result)
         {
             result.CouponFrequency = GetCouponFrequency(resource);
             result.DayCapitalization = GetDayCapitalization(resource);
@@ -330,7 +348,36 @@ namespace BonoApp.API.Bono.Services
             result.COK = GetCOK(resource,result);
             result.CostTransmisor = GetCostTransmisor(resource);
             result.CostBondHolder = GetCostBondHolder(resource);
-            GetData(resource,result);
+            GetDataAmerican(resource,result);
+            return result;
+        }
+        private BondResultResource BondStructFrances(Bond resource, BondResultResource result)
+        {
+            result.CouponFrequency = GetCouponFrequency(resource);
+            result.DayCapitalization = GetDayCapitalization(resource);
+            result.PeriodsPerYear = resource.DayByAnios / result.CouponFrequency;
+            result.TotalPeriods = result.PeriodsPerYear * resource.NumberAnios;
+            result.TEA = GetTEA(resource, result);
+            result.TEP = GetTEP(resource, result);
+            result.COK = GetCOK(resource,result);
+            result.CostTransmisor = GetCostTransmisor(resource);
+            result.CostBondHolder = GetCostBondHolder(resource);
+            GetDataFrances(resource,result);
+            return result;
+        }
+        
+        private BondResultResource BondStructGermany(Bond resource, BondResultResource result)
+        {
+            result.CouponFrequency = GetCouponFrequency(resource);
+            result.DayCapitalization = GetDayCapitalization(resource);
+            result.PeriodsPerYear = resource.DayByAnios / result.CouponFrequency;
+            result.TotalPeriods = result.PeriodsPerYear * resource.NumberAnios;
+            result.TEA = GetTEA(resource, result);
+            result.TEP = GetTEP(resource, result);
+            result.COK = GetCOK(resource,result);
+            result.CostTransmisor = GetCostTransmisor(resource);
+            result.CostBondHolder = GetCostBondHolder(resource);
+            GetDataGermany(resource,result);
             return result;
         }
     }
