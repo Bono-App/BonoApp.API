@@ -54,6 +54,11 @@ namespace BonoApp.API.Shared.Persistence.Contexts
             builder.Entity<Bond>().Property(p => p.Discount).IsRequired();
             builder.Entity<Bond>().Property(p => p.IncomeTax).IsRequired();
             builder.Entity<Bond>().Property(p => p.BroadcastDate).IsRequired();
+            builder.Entity<Bond>().Property(p => p.Prima).IsRequired();
+            builder.Entity<Bond>().Property(p => p.Structure).IsRequired();
+            builder.Entity<Bond>().Property(p => p.Placement).IsRequired();
+            builder.Entity<Bond>().Property(p => p.Floatation).IsRequired();
+            builder.Entity<Bond>().Property(p => p.Cavali).IsRequired();
             
             builder.UseSnakeCaseNamingConvention();
         }

@@ -9,15 +9,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d666ba1-1e9b-46be-8f9c-71cdb689fc37" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Controllers/AmericanBondController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Domain/Services/IBondAmericanService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/AmericanBondResource.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Services/BondAmericanService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BonoApp.API/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BonoApp.API/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Domain/Models/Bond.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Domain/Models/Bond.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/AmericanBondResource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/AmericanBondResource.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/BondResource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/BondResource.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/SaveBondResource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/SaveBondResource.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BonoApp.API/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Startup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Services/BondAmericanService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Services/BondAmericanService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BonoApp.API/BonoApp.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/BonoApp.API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BonoApp.API/Shared/Persistence/Contexts/AppDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Shared/Persistence/Contexts/AppDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BonoApp.API/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +26,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/81d04f2fe9154bb6b191ed155c1a8cb8171600/af/22c5986c/CharSetMap.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -93,6 +96,8 @@
       <workItem from="1654568395135" duration="12740000" />
       <workItem from="1654647498032" duration="618000" />
       <workItem from="1655166640246" duration="6285000" />
+      <workItem from="1655519383312" duration="10940000" />
+      <workItem from="1655681962077" duration="15403000" />
     </task>
     <servers />
   </component>

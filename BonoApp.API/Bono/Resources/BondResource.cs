@@ -16,6 +16,11 @@ namespace BonoApp.API.Bono.Resources
         public float Discount { get; set; }
         public float IncomeTax { get; set; }
         public DateTime BroadcastDate { get; set; }
+        public float Prima { get; set; }
+        public float Structure { get; set; }
+        public float Placement { get; set; }
+        public float Floatation { get; set; }
+        public float Cavali { get; set; }
         public int UserId { get; set; }
     }
 }

@@ -31,6 +31,16 @@ namespace BonoApp.API.Bono.Resources
         [Required]
         public DateTime BroadcastDate { get; set; }
         [Required]
+        public float Prima { get; set; }
+        [Required]
+        public float Structure { get; set; }
+        [Required]
+        public float Placement { get; set; }
+        [Required]
+        public float Floatation { get; set; }
+        [Required]
+        public float Cavali { get; set; }
+        [Required]
         public int UserId { get; set; }
     }
 }

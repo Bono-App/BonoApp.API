@@ -3,6 +3,7 @@ using BonoApp.API.Bono.Domain.Models;
 using BonoApp.API.Bono.Domain.Repositories;
 using BonoApp.API.Bono.Domain.Services;
 using BonoApp.API.Bono.Resources;
+using Humanizer;
 
 namespace BonoApp.API.Bono.Services
 {
@@ -109,6 +110,215 @@ namespace BonoApp.API.Bono.Services
             }
         }
 
+        private float GetTEP(Bond resource, AmericanBondResource result)
+        {
+            float toPercentage = result.TEA / 100;
+            float firstStep = (1 + toPercentage);
+            float n = (float)result.CouponFrequency / resource.DayByAnios;
+            double secondStep = (Math.Pow(firstStep, n) - 1)*100;
+            return (float)secondStep;
+        }
+
+        private float GetCOK(Bond resource, AmericanBondResource result)
+        {
+            float toPercentage = resource.Discount / 100;
+            float firstStep = (1 + toPercentage);
+            float n = (float)result.CouponFrequency/ resource.DayByAnios;
+            double secondStep = (Math.Pow(firstStep, n) - 1)*100;
+            return (float)secondStep;
+        }
+
+        private float GetCostTransmisor(Bond resource)
+        {
+            float toPercentage = (resource.Structure + resource.Placement + resource.Floatation + resource.Cavali)/100;
+            return toPercentage * resource.CommercialValue;
+        }
+
+        private float GetCostBondHolder(Bond resource)
+        {
+            float toPercentage = (resource.Floatation + resource.Cavali)/100;
+            return toPercentage * resource.CommercialValue;
+        }
+
+        private void GetData(Bond resource, AmericanBondResource result)
+        {
+            float interest = (result.TEP / 100);
+            float bond=resource.NominalValue;
+            float coupon=-bond*interest;
+            
+            float amort=0; //Diff
+            double cuotes = coupon+amort; //Diff
+            float prima = 0; //Diff
+            
+            float flujoEmisor = (float)cuotes + prima;
+            float flujoBonista = -flujoEmisor;
+            float COK=1+(result.COK/100);
+            float VAN = flujoBonista/COK;
+
+            double flujoAct = flujoBonista / Math.Pow(1+(result.COK/100), 1);
+            float FA = (float)flujoAct * 1 * ((float)result.CouponFrequency / resource.DayByAnios);
+            float convexity = (float)flujoAct * 1 * (1 + 1);
+            
+            double valueI = 0;
+            float allFlujoAct = (float)flujoAct;
+            float allFa = FA;
+            float allConvexity = convexity;
+            float costs = (-resource.CommercialValue) - result.CostBondHolder;
+            
+            for (int i = 2; i <= result.TotalPeriods; i++)
+            {
+                bond = bond + amort;
+                coupon = -bond*interest;
+                if (i == result.TotalPeriods)
+                {
+                    prima=-((resource.Prima / 100) * resource.NominalValue);
+                    amort=-bond;
+                }
+                cuotes = coupon+amort;
+                
+                flujoEmisor = (float)cuotes + prima;
+                flujoBonista = -flujoEmisor;
+                valueI = Math.Pow(COK, i);
+                VAN = VAN+(flujoBonista /(float)valueI);
+                
+                flujoAct = flujoBonista / Math.Pow(1+(result.COK/100), i);
+                FA= (float)flujoAct * i * ((float)result.CouponFrequency / resource.DayByAnios);
+                convexity = (float)flujoAct * i * (1 + i);
+                
+                allFlujoAct = allFlujoAct + (float)flujoAct;
+                allFa = allFa + FA;
+                allConvexity = allConvexity + convexity;
+            }
+            
+            double aux=Math.Pow(1+(result.COK/100), 2)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, 2);
+            
+            result.VAN = VAN;
+            result.UtilityOrLose = costs+VAN;
+            result.Duration = allFa / allFlujoAct;
+            result.Convexity = allConvexity / (float)aux;
+            result.Total = result.Duration + result.Convexity;
+            result.ModifiedDuration = result.Duration / (1 + (result.COK / 100));
+        }
+
+        private void GetData2(Bond resource, AmericanBondResource result)
+        {
+            float interest = (result.TEP / 100);
+            float bond = resource.NominalValue;
+            float coupon = -bond * interest;
+
+            double cuotes = coupon / (1 - (Math.Pow(1 + interest, -(result.TotalPeriods - 1 + 1))));
+            float amort = (float)cuotes - coupon;
+            float prima = 0; //Diff
+
+            float flujoEmisor = (float)cuotes + prima;
+            float flujoBonista = -flujoEmisor;
+            float COK = 1 + (result.COK / 100);
+            float VAN = flujoBonista / COK;
+
+            double flujoAct = flujoBonista / Math.Pow(1 + (result.COK / 100), 1);
+            float FA = (float)flujoAct * 1 * ((float)result.CouponFrequency / resource.DayByAnios);
+            float convexity = (float)flujoAct * 1 * (1 + 1);
+
+            double valueI = 0;
+            float allFlujoAct = (float)flujoAct;
+            float allFa = FA;
+            float allConvexity = convexity;
+            float costs = (-resource.CommercialValue) - result.CostBondHolder;
+
+            for (int i = 2; i <= result.TotalPeriods; i++)
+            {
+                bond = bond + amort;
+                coupon = -bond * interest;
+                cuotes = coupon / (1 - (Math.Pow(1 + interest, -(result.TotalPeriods - i + 1))));
+                amort = (float)cuotes - coupon;
+                if (i == result.TotalPeriods)
+                {
+                    prima = -((resource.Prima / 100) * bond);
+                }
+
+                flujoEmisor = (float)cuotes + prima;
+                flujoBonista = -flujoEmisor;
+                valueI = Math.Pow(COK, i);
+                VAN = VAN + (flujoBonista / (float)valueI);
+
+                flujoAct = flujoBonista / Math.Pow(1 + (result.COK / 100), i);
+                FA = (float)flujoAct * i * ((float)result.CouponFrequency / resource.DayByAnios);
+                convexity = (float)flujoAct * i * (1 + i);
+
+                allFlujoAct = allFlujoAct + (float)flujoAct;
+                allFa = allFa + FA;
+                allConvexity = allConvexity + convexity;
+            }
+            double aux=Math.Pow(1+(result.COK/100), 2)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, 2);
+            
+            result.VAN = VAN;
+            result.UtilityOrLose = costs+VAN;
+            result.Duration = allFa / allFlujoAct;
+            result.Convexity = allConvexity / (float)aux;
+            result.Total = result.Duration + result.Convexity;
+            result.ModifiedDuration = result.Duration / (1 + (result.COK / 100));
+        }
+        
+        private void GetData3(Bond resource, AmericanBondResource result)
+        {
+            float interest = (result.TEP / 100);
+            float bond=resource.NominalValue;
+            float coupon=-bond*interest;
+            
+            float amort=-bond/(result.TotalPeriods-1+1); //Diff
+            double cuotes = coupon+amort; //Diff
+            float prima = 0; //Diff
+            
+            float flujoEmisor = (float)cuotes + prima;
+            float flujoBonista = -flujoEmisor;
+            float COK=1+(result.COK/100);
+            float VAN = flujoBonista/COK;
+
+            double flujoAct = flujoBonista / Math.Pow(1+(result.COK/100), 1);
+            float FA = (float)flujoAct * 1 * ((float)result.CouponFrequency / resource.DayByAnios);
+            float convexity = (float)flujoAct * 1 * (1 + 1);
+            
+            double valueI = 0;
+            float allFlujoAct = (float)flujoAct;
+            float allFa = FA;
+            float allConvexity = convexity;
+            float costs = (-resource.CommercialValue) - result.CostBondHolder;
+            
+            for (int i = 2; i <= result.TotalPeriods; i++)
+            {
+                bond = bond + amort;
+                coupon = -bond*interest;
+                amort=-bond/(result.TotalPeriods-i+1); 
+                if (i == result.TotalPeriods)
+                {
+                    prima=-((resource.Prima / 100) * bond);
+                }
+                cuotes = coupon+amort;
+                
+                flujoEmisor = (float)cuotes + prima;
+                flujoBonista = -flujoEmisor;
+                valueI = Math.Pow(COK, i);
+                VAN = VAN+(flujoBonista /(float)valueI);
+                
+                flujoAct = flujoBonista / Math.Pow(1+(result.COK/100), i);
+                FA= (float)flujoAct * i * ((float)result.CouponFrequency / resource.DayByAnios);
+                convexity = (float)flujoAct * i * (1 + i);
+                
+                allFlujoAct = allFlujoAct + (float)flujoAct;
+                allFa = allFa + FA;
+                allConvexity = allConvexity + convexity;
+            }
+            
+            double aux=Math.Pow(1+(result.COK/100), 2)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, 2);
+            
+            result.VAN = VAN;
+            result.UtilityOrLose = costs+VAN;
+            result.Duration = allFa / allFlujoAct;
+            result.Convexity = allConvexity / (float)aux;
+            result.Total = result.Duration + result.Convexity;
+            result.ModifiedDuration = result.Duration / (1 + (result.COK / 100));
+        }
+
         private AmericanBondResource BondStruct(Bond resource, AmericanBondResource result)
         {
             result.CouponFrequency = GetCouponFrequency(resource);
@@ -116,6 +326,11 @@ namespace BonoApp.API.Bono.Services
             result.PeriodsPerYear = resource.DayByAnios / result.CouponFrequency;
             result.TotalPeriods = result.PeriodsPerYear * resource.NumberAnios;
             result.TEA = GetTEA(resource, result);
+            result.TEP = GetTEP(resource, result);
+            result.COK = GetCOK(resource,result);
+            result.CostTransmisor = GetCostTransmisor(resource);
+            result.CostBondHolder = GetCostBondHolder(resource);
+            GetData(resource,result);
             return result;
         }
     }
