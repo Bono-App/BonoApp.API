@@ -251,7 +251,7 @@ namespace BonoApp.API.Bono.Services
                 amort = (float)cuotes - coupon;
                 if (i == result.TotalPeriods)
                 {
-                    prima = -((resource.Prima / 100) * bond);
+                    prima = -((resource.Prima / 100) * resource.NominalValue);
                 }
 
                 flujoEmisor = (float)cuotes + prima;
@@ -309,7 +309,7 @@ namespace BonoApp.API.Bono.Services
                 amort=-bond/(result.TotalPeriods-i+1); 
                 if (i == result.TotalPeriods)
                 {
-                    prima=-((resource.Prima / 100) * bond);
+                    prima=-((resource.Prima / 100) * resource.NominalValue);
                 }
                 cuotes = coupon+amort;
                 

@@ -9,13 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d666ba1-1e9b-46be-8f9c-71cdb689fc37" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Controllers/BondResultController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BonoApp.API/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BonoApp.API/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Controllers/AmericanBondController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Domain/Services/IBondAmericanService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Domain/Services/IBondResultService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/AmericanBondResource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/BondResultResource.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Services/BondAmericanService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Services/BondResultService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BonoApp.API/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Startup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Services/BondResultService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Services/BondResultService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BonoApp.API/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,6 +89,7 @@
       <workItem from="1655166640246" duration="6285000" />
       <workItem from="1655519383312" duration="10940000" />
       <workItem from="1655681962077" duration="15403000" />
+      <workItem from="1655773223210" duration="1606000" />
     </task>
     <servers />
   </component>
