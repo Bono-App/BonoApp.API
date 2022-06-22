@@ -18,5 +18,9 @@
         public float Convexity { get; set; }
         public float Total { get; set; }
         public float ModifiedDuration { get; set; }
+        public float TIRBonistaPeriod { get; set; }
+        public float TIREmisorPeriod { get; set; }
+        public float TCEAEmisor { get; set; }
+        public float TREABonista { get; set; }
     }
 }

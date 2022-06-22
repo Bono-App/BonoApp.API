@@ -10,6 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6d666ba1-1e9b-46be-8f9c-71cdb689fc37" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BonoApp.API/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BonoApp.API/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/BondResultResource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/BondResultResource.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Services/BondResultService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Services/BondResultService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BonoApp.API/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/appsettings.json" afterDir="false" />
     </list>

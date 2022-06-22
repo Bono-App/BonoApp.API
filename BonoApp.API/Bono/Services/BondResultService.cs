@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using BonoApp.API.Bono.Domain.Models;
 using BonoApp.API.Bono.Domain.Repositories;
 using BonoApp.API.Bono.Domain.Services;
 using BonoApp.API.Bono.Resources;
 using Humanizer;
+using Microsoft.VisualBasic;
 
 namespace BonoApp.API.Bono.Services
 {
@@ -157,9 +159,15 @@ namespace BonoApp.API.Bono.Services
             float toPercentage = (resource.Floatation + resource.Cavali)/100;
             return toPercentage * resource.CommercialValue;
         }
-
+        
         private void GetDataAmerican(Bond resource, BondResultResource result)
         {
+            double[] matrix = new double[result.TotalPeriods + 1];
+            matrix[0] = (double)(-resource.CommercialValue - result.CostBondHolder);
+            
+            double[] matrixemisor = new double[result.TotalPeriods + 1];
+            matrixemisor[0] = (double)(resource.CommercialValue - result.CostTransmisor);
+
             float interest = (result.TEP / 100);
             float bond=resource.NominalValue;
             float coupon=-bond*interest;
@@ -182,6 +190,9 @@ namespace BonoApp.API.Bono.Services
             float allFa = FA;
             float allConvexity = convexity;
             float costs = (-resource.CommercialValue) - result.CostBondHolder;
+
+            matrix[1] = flujoBonista;
+            matrixemisor[1] = flujoEmisor;
             
             for (int i = 2; i <= result.TotalPeriods; i++)
             {
@@ -206,10 +217,20 @@ namespace BonoApp.API.Bono.Services
                 allFlujoAct = allFlujoAct + (float)flujoAct;
                 allFa = allFa + FA;
                 allConvexity = allConvexity + convexity;
+                
+                matrix[i] = flujoBonista;
+                matrixemisor[i] = flujoEmisor;
             }
             
-            double aux=Math.Pow(1+(result.COK/100), 2)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, 2);
+            double aux=Math.Pow(1+(result.COK/100), result.PeriodsPerYear)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, result.PeriodsPerYear);
             
+            double tir = Financial.IRR(ref matrix);
+            double tiremisor = Financial.IRR(ref matrixemisor);
+
+            result.TIREmisorPeriod = (float)tiremisor * 100;
+            result.TIRBonistaPeriod = (float)tir * 100;
+            result.TREABonista = (float)(Math.Pow(1 + tir, result.PeriodsPerYear) - 1)*100;
+            result.TCEAEmisor = (float)(Math.Pow(1 + tiremisor, result.PeriodsPerYear) - 1)*100;
             result.VAN = VAN;
             result.UtilityOrLose = costs+VAN;
             result.Duration = allFa / allFlujoAct;
@@ -220,6 +241,12 @@ namespace BonoApp.API.Bono.Services
 
         private void GetDataFrances(Bond resource, BondResultResource result)
         {
+            double[] matrix = new double[result.TotalPeriods + 1];
+            matrix[0] = (double)(-resource.CommercialValue - result.CostBondHolder);
+            
+            double[] matrixemisor = new double[result.TotalPeriods + 1];
+            matrixemisor[0] = (double)(resource.CommercialValue - result.CostTransmisor);
+            
             float interest = (result.TEP / 100);
             float bond = resource.NominalValue;
             float coupon = -bond * interest;
@@ -242,6 +269,9 @@ namespace BonoApp.API.Bono.Services
             float allFa = FA;
             float allConvexity = convexity;
             float costs = (-resource.CommercialValue) - result.CostBondHolder;
+            
+            matrix[1] = flujoBonista;
+            matrixemisor[1] = flujoEmisor;
 
             for (int i = 2; i <= result.TotalPeriods; i++)
             {
@@ -266,9 +296,19 @@ namespace BonoApp.API.Bono.Services
                 allFlujoAct = allFlujoAct + (float)flujoAct;
                 allFa = allFa + FA;
                 allConvexity = allConvexity + convexity;
+                
+                matrix[i] = flujoBonista;
+                matrixemisor[i] = flujoEmisor;
             }
-            double aux=Math.Pow(1+(result.COK/100), 2)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, 2);
+            double aux=Math.Pow(1+(result.COK/100), result.PeriodsPerYear)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, result.PeriodsPerYear);
             
+            double tir = Financial.IRR(ref matrix);
+            double tiremisor = Financial.IRR(ref matrixemisor);
+
+            result.TIREmisorPeriod = (float)tiremisor * 100;
+            result.TIRBonistaPeriod = (float)tir * 100;
+            result.TREABonista = (float)(Math.Pow(1 + tir, result.PeriodsPerYear) - 1)*100;
+            result.TCEAEmisor = (float)(Math.Pow(1 + tiremisor, result.PeriodsPerYear) - 1)*100;
             result.VAN = VAN;
             result.UtilityOrLose = costs+VAN;
             result.Duration = allFa / allFlujoAct;
@@ -279,6 +319,12 @@ namespace BonoApp.API.Bono.Services
         
         private void GetDataGermany(Bond resource, BondResultResource result)
         {
+            double[] matrix = new double[result.TotalPeriods + 1];
+            matrix[0] = (double)(-resource.CommercialValue - result.CostBondHolder);
+            
+            double[] matrixemisor = new double[result.TotalPeriods + 1];
+            matrixemisor[0] = (double)(resource.CommercialValue - result.CostTransmisor);
+            
             float interest = (result.TEP / 100);
             float bond=resource.NominalValue;
             float coupon=-bond*interest;
@@ -301,6 +347,9 @@ namespace BonoApp.API.Bono.Services
             float allFa = FA;
             float allConvexity = convexity;
             float costs = (-resource.CommercialValue) - result.CostBondHolder;
+            
+            matrix[1] = flujoBonista;
+            matrixemisor[1] = flujoEmisor;
             
             for (int i = 2; i <= result.TotalPeriods; i++)
             {
@@ -325,10 +374,20 @@ namespace BonoApp.API.Bono.Services
                 allFlujoAct = allFlujoAct + (float)flujoAct;
                 allFa = allFa + FA;
                 allConvexity = allConvexity + convexity;
+                
+                matrix[i] = flujoBonista;
+                matrixemisor[i] = flujoEmisor;
             }
             
-            double aux=Math.Pow(1+(result.COK/100), 2)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, 2);
-            
+            double aux=Math.Pow(1+(result.COK/100), result.PeriodsPerYear)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, result.PeriodsPerYear);
+
+            double tir = Financial.IRR(ref matrix);
+            double tiremisor = Financial.IRR(ref matrixemisor);
+
+            result.TIREmisorPeriod = (float)tiremisor * 100;
+            result.TIRBonistaPeriod = (float)tir * 100;
+            result.TREABonista = (float)(Math.Pow(1 + tir, result.PeriodsPerYear) - 1)*100;
+            result.TCEAEmisor = (float)(Math.Pow(1 + tiremisor, result.PeriodsPerYear) - 1)*100;
             result.VAN = VAN;
             result.UtilityOrLose = costs+VAN;
             result.Duration = allFa / allFlujoAct;
