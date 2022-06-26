@@ -22,5 +22,7 @@
         public float TIREmisorPeriod { get; set; }
         public float TCEAEmisor { get; set; }
         public float TREABonista { get; set; }
+        public float TCEAEmisorEscudo { get; set; }
+        public float TIREmisorEscudoPeriod { get; set; }
     }
 }

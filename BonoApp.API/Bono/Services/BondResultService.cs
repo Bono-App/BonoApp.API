@@ -167,11 +167,14 @@ namespace BonoApp.API.Bono.Services
             
             double[] matrixemisor = new double[result.TotalPeriods + 1];
             matrixemisor[0] = (double)(resource.CommercialValue - result.CostTransmisor);
+            
+            double[] matrixemisorescudo = new double[result.TotalPeriods + 1];
+            matrixemisorescudo[0] = (double)(resource.CommercialValue - result.CostTransmisor);
 
             float interest = (result.TEP / 100);
             float bond=resource.NominalValue;
             float coupon=-bond*interest;
-            
+
             float amort=0; //Diff
             double cuotes = coupon+amort; //Diff
             float prima = 0; //Diff
@@ -193,6 +196,11 @@ namespace BonoApp.API.Bono.Services
 
             matrix[1] = flujoBonista;
             matrixemisor[1] = flujoEmisor;
+
+            float shield = -coupon * (resource.IncomeTax / 100);
+            float flujo_shield = shield + flujoEmisor;
+            
+            matrixemisorescudo[1] = flujo_shield;
             
             for (int i = 2; i <= result.TotalPeriods; i++)
             {
@@ -220,13 +228,21 @@ namespace BonoApp.API.Bono.Services
                 
                 matrix[i] = flujoBonista;
                 matrixemisor[i] = flujoEmisor;
+                
+                shield = -coupon * (resource.IncomeTax / 100);
+                flujo_shield = shield + flujoEmisor;
+                matrixemisorescudo[i] = flujo_shield;
             }
             
             double aux=Math.Pow(1+(result.COK/100), result.PeriodsPerYear)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, result.PeriodsPerYear);
             
             double tir = Financial.IRR(ref matrix);
             double tiremisor = Financial.IRR(ref matrixemisor);
-
+            
+            double tiremisorescudo = Financial.IRR(ref matrixemisorescudo);
+            
+            result.TIREmisorEscudoPeriod = (float)tiremisorescudo * 100;
+            result.TCEAEmisorEscudo = (float)(Math.Pow(1 + tiremisorescudo, result.PeriodsPerYear) - 1)*100;
             result.TIREmisorPeriod = (float)tiremisor * 100;
             result.TIRBonistaPeriod = (float)tir * 100;
             result.TREABonista = (float)(Math.Pow(1 + tir, result.PeriodsPerYear) - 1)*100;
@@ -246,6 +262,9 @@ namespace BonoApp.API.Bono.Services
             
             double[] matrixemisor = new double[result.TotalPeriods + 1];
             matrixemisor[0] = (double)(resource.CommercialValue - result.CostTransmisor);
+            
+            double[] matrixemisorescudo = new double[result.TotalPeriods + 1];
+            matrixemisorescudo[0] = (double)(resource.CommercialValue - result.CostTransmisor);
             
             float interest = (result.TEP / 100);
             float bond = resource.NominalValue;
@@ -272,6 +291,11 @@ namespace BonoApp.API.Bono.Services
             
             matrix[1] = flujoBonista;
             matrixemisor[1] = flujoEmisor;
+            
+            float shield = -coupon * (resource.IncomeTax / 100);
+            float flujo_shield = shield + flujoEmisor;
+            
+            matrixemisorescudo[1] = flujo_shield;
 
             for (int i = 2; i <= result.TotalPeriods; i++)
             {
@@ -299,12 +323,20 @@ namespace BonoApp.API.Bono.Services
                 
                 matrix[i] = flujoBonista;
                 matrixemisor[i] = flujoEmisor;
+                
+                shield = -coupon * (resource.IncomeTax / 100);
+                flujo_shield = shield + flujoEmisor;
+                matrixemisorescudo[i] = flujo_shield;
             }
             double aux=Math.Pow(1+(result.COK/100), result.PeriodsPerYear)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, result.PeriodsPerYear);
             
             double tir = Financial.IRR(ref matrix);
             double tiremisor = Financial.IRR(ref matrixemisor);
-
+            
+            double tiremisorescudo = Financial.IRR(ref matrixemisorescudo);
+            
+            result.TIREmisorEscudoPeriod = (float)tiremisorescudo * 100;
+            result.TCEAEmisorEscudo = (float)(Math.Pow(1 + tiremisorescudo, result.PeriodsPerYear) - 1)*100;
             result.TIREmisorPeriod = (float)tiremisor * 100;
             result.TIRBonistaPeriod = (float)tir * 100;
             result.TREABonista = (float)(Math.Pow(1 + tir, result.PeriodsPerYear) - 1)*100;
@@ -324,6 +356,9 @@ namespace BonoApp.API.Bono.Services
             
             double[] matrixemisor = new double[result.TotalPeriods + 1];
             matrixemisor[0] = (double)(resource.CommercialValue - result.CostTransmisor);
+            
+            double[] matrixemisorescudo = new double[result.TotalPeriods + 1];
+            matrixemisorescudo[0] = (double)(resource.CommercialValue - result.CostTransmisor);
             
             float interest = (result.TEP / 100);
             float bond=resource.NominalValue;
@@ -351,6 +386,11 @@ namespace BonoApp.API.Bono.Services
             matrix[1] = flujoBonista;
             matrixemisor[1] = flujoEmisor;
             
+            float shield = -coupon * (resource.IncomeTax / 100);
+            float flujo_shield = shield + flujoEmisor;
+            
+            matrixemisorescudo[1] = flujo_shield;
+            
             for (int i = 2; i <= result.TotalPeriods; i++)
             {
                 bond = bond + amort;
@@ -377,13 +417,21 @@ namespace BonoApp.API.Bono.Services
                 
                 matrix[i] = flujoBonista;
                 matrixemisor[i] = flujoEmisor;
+                
+                shield = -coupon * (resource.IncomeTax / 100);
+                flujo_shield = shield + flujoEmisor;
+                matrixemisorescudo[i] = flujo_shield;
             }
             
             double aux=Math.Pow(1+(result.COK/100), result.PeriodsPerYear)*allFlujoAct*Math.Pow((float)resource.DayByAnios/result.CouponFrequency, result.PeriodsPerYear);
 
             double tir = Financial.IRR(ref matrix);
             double tiremisor = Financial.IRR(ref matrixemisor);
-
+            
+            double tiremisorescudo = Financial.IRR(ref matrixemisorescudo);
+            
+            result.TIREmisorEscudoPeriod = (float)tiremisorescudo * 100;
+            result.TCEAEmisorEscudo = (float)(Math.Pow(1 + tiremisorescudo, result.PeriodsPerYear) - 1)*100;
             result.TIREmisorPeriod = (float)tiremisor * 100;
             result.TIRBonistaPeriod = (float)tir * 100;
             result.TREABonista = (float)(Math.Pow(1 + tir, result.PeriodsPerYear) - 1)*100;

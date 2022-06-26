@@ -12,7 +12,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BonoApp.API/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BonoApp.API/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/BondResultResource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Resources/BondResultResource.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BonoApp.API/Bono/Services/BondResultService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/Bono/Services/BondResultService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BonoApp.API/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/BonoApp.API/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,6 +90,9 @@
       <workItem from="1655519383312" duration="10940000" />
       <workItem from="1655681962077" duration="15403000" />
       <workItem from="1655773223210" duration="1606000" />
+      <workItem from="1655875887460" duration="35000" />
+      <workItem from="1655879244178" duration="601000" />
+      <workItem from="1656276315073" duration="1546000" />
     </task>
     <servers />
   </component>
